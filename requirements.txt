@@ -1,4 +1,9 @@
 pandas
-numpy 
-seaborn 
--e .
+numpy
+seaborn
+matplotlib
+scikit-learn
+adversarial-robustness-toolbox
+dill
+Flask
+#-e .
