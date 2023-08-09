@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Crimson+Pro">
+    <style>
+        body{
+        background-color: #6abbce;
+    }
+    body {
+        font-family: 'Crimson Pro', serif;
+        font-size: 40px;
+      }
+    h1{
+        font-size: 40px;
+    }
+    button{
+        
+        border-radius: 25px;
+        background: linear-gradient(90deg, rgb(255, 222, 89) 0%, rgb(255, 145, 77) 100%) 0px 0px / 735.491px 150.732px;
+        width: 200px;
+        height: 50px;
+        font-size: 30px;
+    }
+    body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            width: 500px;
+            height: 500px;
+            border: 3px solid black;
+            padding: 50px;
+            background-color: white;
+            
+        }
+
+        .box label {
+            font-size: 40px;
+            font-family: 'Crimson Pro', serif;
+            font-size: 40px;
+            
+        }
+        h2{
+            font-size: 40px;
+            font-family: 'Crimson Pro', serif;
+            font-size: 40px;
+        }
+    </style>
+    <!-- <script src="app.js"></script> -->
+</head>
+<body>
+    <!-- <h1 align="center">Datasets</h1> -->
+    <!-- <div class="box">
+        <h2 align="center">Select an Dataset to perform the attack:</h2>
+        <input type="radio" id="option1" name="option" value="option1">
+        <label for="option1"> NSL-KDD Data set</label><br><br><br><br><br>
+        <input type="radio" id="option2" name="option" value="option2">
+        <label for="option2"> UNSW Data set</label><br><br><br><br><br><br>
+        <a href="/attack_type.html">
+            <button>next</button>
+        </a>
+    </div> -->
+
+
+    <div class="box">
+        <h2 align="center">Select a Dataset to perform the attack:</h2>
+       <form id="radioForm" action="{{ url_for('attack_selection') }}" method="post">
+          <input type="radio" id="option1" name="option" value="NSL-KDD">
+          <label for="option1"> NSL-KDD Dataset</label><br><br>
+          <input type="radio" id="option2" name="option" value="UNSW">
+          <label for="option2"> UNSW Dataset</label><br><br><br><br>
+          <button type="submit" id="submitButton" disabled>Next</button>
+        </form>
+      </div>
+      
+      <script>
+        var radioForm = document.getElementById('radioForm');
+        var submitButton = document.getElementById('submitButton');
+      
+        radioForm.addEventListener('change', function() {
+          submitButton.disabled = false;
+        });
+      
+        radioForm.addEventListener('submit', function(event) {
+          var selectedOption = document.querySelector('input[name="option"]:checked');
+          if (!selectedOption) {
+            event.preventDefault();
+            alert("Please select a dataset.");
+          }
+        });
+      </script>
+
+
+
+
+
+
+
+      

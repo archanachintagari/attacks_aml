@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adversarial Machine Learning Attacks</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script> <!-- Added Chart.js library -->
+    <script>
+        $(document).ready(function() {
+            // Function to load attack types based on the selected category
+            function loadAttackTypes(category) {
+                // Show or hide the attack types based on the selected category
+                if (category === "white-box") {
+                    $(".attack-type-section").hide();
+                    $("#white-box-attacks").show();
+                } else if (category === "black-box") {
+                    $(".attack-type-section").hide();
+                    $("#black-box-attacks").show();
+                } else {
+                    $(".attack-type-section").hide();
+                }
+            }
+
+            // Event listener for category selection
+            $("input[name='category']").on("change", function() {
+                var selectedCategory = $(this).val();
+                loadAttackTypes(selectedCategory);
+            });
+
+            // Event listener for "Perform Attack" button
+            $("#attack-form").on("submit", function(e) {
+                e.preventDefault();
+
+                // Get the selected attack type
+                var selectedAttack = $("input[name='attack-type']:checked").val();
+
+                // Get the selected dataset
+                var selectedDataset = $("input[name='category']:checked").val();
+
+                // Set the selected attack and dataset values in the hidden input fields
+                $("input[name='attack']").val(selectedAttack);
+                $("input[name='dataset']").val(selectedDataset);
+
+                // Submit the form to perform the attack
+                $(this).unbind('submit').submit();
+            });
+
+            // Initially load attack types based on the selected category
+            var selectedCategory = $("input[name='category']:checked").val();
+            loadAttackTypes(selectedCategory);
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Crimson Pro', serif;
+            font-size: 30px;
+            background-color: #6abbce;
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            border-radius: 25px;
+            background: linear-gradient(90deg, rgb(255, 222, 89) 0%, rgb(255, 145, 77) 100%) 0px 0px / 735.491px 150.732px;
+            width: 200px;
+            height: 50px;
+            font-family: 'Crimson Pro', serif;
+            font-size: 20px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            width: 600px;
+            height: 700px;
+            border: 3px solid black;
+            padding: 50px;
+            background-color: white;
+        }
+
+        .box label {
+            font-size: 40px;
+            font-family: 'Crimson Pro', serif;
+        }
+
+        .attack-type-section {
+            display: none;
+        }
+
+        .attack-type-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 align="center">Adversarial Machine Learning Attacks</h2>
+        <form id="attack-form" action="/perform-attack" method="POST">
+            <input type="hidden" name="dataset" value="">
+            <label><input type="radio" name="category" value="white-box">White Box Attacks</label><br><br><br>
+            <div id="white-box-attacks" class="attack-type-section">
+                <label><input type="radio" name="attack-type" value="attack1">Projected Gradient Descent Attack</label><br>
+                <label><input type="radio" name="attack-type" value="attack2">Carlini & Wanger Attack</label><br><br>
+            </div>
+            <label><input type="radio" name="category" value="black-box">Black Box Attacks</label><br><br>
+            <div id="black-box-attacks" class="attack-type-section">
+                <label><input type="radio" name="attack-type" value="attack3">Boundary Attack</label><br>
+                <label><input type="radio" name="attack-type" value="attack4">Hop Skip Jump Attack</label><br>
+                <label><input type="radio" name="attack-type" value="attack5">ZOO Attack</label><br>
+                <label><input type="radio" name="attack-type" value="attack6">Membership Inference Attack</label><br>
+            </div>
+            <br>
+            <button type="submit">Perform Attack</button>
+        </form>
+
+        <!-- Canvas element for the bar plot -->
+        <canvas id="barChart"></canvas>
+    </div>
+</body>
+</html>
