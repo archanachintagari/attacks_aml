@@ -72,4 +72,3 @@ class ModelTrainer:
             return accuracy_before_attack
         except Exception as e:
             raise CustomException(e,sys)
-

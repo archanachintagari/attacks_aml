@@ -13,21 +13,17 @@ app=application
 
 @app.route('/')
 def select_dataset():
-    return render_template('dataset/select_dataset.html')
+    return render_template('templates/select_dataset.html')
 
 @app.route('/attack-selection', methods=['GET', 'POST'])
 def attack_selection():
     if request.method=='GET':
-        return render_template('attack/attack_selection.html')
+        return render_template('templates/attack_selection.html')
     else:
         data=CustomData(
-            gender=request.form.get('gender'),
-            race_ethnicity=request.form.get('ethnicity'),
-            parental_level_of_education=request.form.get('parental_level_of_education'),
-            lunch=request.form.get('lunch'),
-            test_preparation_course=request.form.get('test_preparation_course'),
-            reading_score=float(request.form.get('writing_score')),
-            writing_score=float(request.form.get('reading_score'))
+            dataset=request.form.get('dataset'),
+            attack=request.form.get('category'),
+            attack_type_section=request.form.get('attack-type')
 
         )
         pred_df=data.get_data_as_data_frame()
@@ -35,10 +31,10 @@ def attack_selection():
         print("Before Prediction")
 
         predict_pipeline=PredictPipeline()
-        print("Mid Prediction")
+        print("Before Attack")
         results=predict_pipeline.predict(pred_df)
-        print("after Prediction")
-        return render_template('home.html',results=results[0])
+        print("After Attack")
+        return render_template('results.html',results=results[0])
       
 
 if __name__ == '__main__':

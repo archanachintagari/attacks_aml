@@ -73,9 +73,9 @@
     <div class="box">
         <h2 align="center">Select a Dataset to perform the attack:</h2>
        <form id="radioForm" action="{{ url_for('attack_selection') }}" method="post">
-          <input type="radio" id="option1" name="option" value="NSL-KDD">
+          <input type="radio" id="option1" name="dataset" value="NSL-KDD">
           <label for="option1"> NSL-KDD Dataset</label><br><br>
-          <input type="radio" id="option2" name="option" value="UNSW">
+          <input type="radio" id="option2" name="dataset" value="UNSW">
           <label for="option2"> UNSW Dataset</label><br><br><br><br>
           <button type="submit" id="submitButton" disabled>Next</button>
         </form>
