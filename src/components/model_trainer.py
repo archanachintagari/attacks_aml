@@ -32,43 +32,29 @@ class ModelTrainer:
                 test_array[0:n_samples_max],
                 test_array[0:n_samples_max]
             )
-            models = {
-                "Logistic Regression": LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=1.0, fit_intercept=True, intercept_scaling=1, 
+            model = LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=1.0, fit_intercept=True, intercept_scaling=1, 
                            class_weight='balanced', random_state=None, solver='lbfgs', max_iter=100, 
-                           multi_class='ovr', verbose=0, warm_start=False, n_jobs=None),
-            }
-            params={
-
-                "Logistic Regression":{}
-                
-            }
-
-            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
-                                             models=models,param=params)
+                           multi_class='ovr', verbose=0, warm_start=False, n_jobs=None)
             
-            ## To get best model score from dict
-            best_model_score = max(sorted(model_report.values()))
-
-            ## To get best model name from dict
-
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
-            ]
-            best_model = models[best_model_name]
-
-            if best_model_score<0.6:
-                raise CustomException("No best model found")
-            logging.info(f"Best found model on both training and testing dataset")
-
-            best_model.fit(X_train, y_train)
+            model_scores = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test,
+                               model=model)
+            model.fit(X_train,y_train)
+            art_classifier = SklearnClassifier(model)
+            pgd = ProjectedGradientDescent(estimator=art_classifier, norm=np.inf, eps=.3, eps_step=0.1, max_iter=20, 
+                               targeted=False, num_random_init=0, batch_size=100)
+            
+            x_train_adv = pgd.generate(X_train)
+            x_test_adv = pgd.generate(X_test) 
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                obj=best_model
+                obj= model
             )
 
-            predicted=best_model.predict(X_test) 
-            accuracy_before_attack = accuracy_score(y_test, predicted)
-            return accuracy_before_attack
+            accuracy_before_attack =  model.score(X_test, y_test) 
+            accuracy_after_attack = model.score(x_test_adv,y_test)
+            return accuracy_before_attack,accuracy_after_attack
+        
+
         except Exception as e:
             raise CustomException(e,sys)
