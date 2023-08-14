@@ -70,7 +70,7 @@ class DataTransformation:
             logging.info(f"Numerical columns: {numerical_columns}")
             # print("Categorical columns:", categorical_columns)
             # print("Numerical columns:", numerical_columns)
-            #print("testing")
+            # print("testing")
 
             preprocessor=ColumnTransformer(
                 [
