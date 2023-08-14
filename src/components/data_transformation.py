@@ -45,6 +45,7 @@ class DataTransformation:
                 "protocol_type",
                 "service",
                 "flag",
+                
             ]
 
             num_pipeline= Pipeline(
@@ -67,6 +68,9 @@ class DataTransformation:
 
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
+            # print("Categorical columns:", categorical_columns)
+            # print("Numerical columns:", numerical_columns)
+            #print("testing")
 
             preprocessor=ColumnTransformer(
                 [
@@ -77,6 +81,7 @@ class DataTransformation:
 
 
             )
+            # print("Preprocessor:", preprocessor)
 
             return preprocessor
         
